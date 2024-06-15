@@ -21,33 +21,46 @@ class HomeController extends Controller
             ->title('Dasbor')
             ->description('Pinjam ruang')
             ->row(function (Row $row) {
-                // Widget for users
-                $row->column(3, function (Column $column) {
-                    $count_users = \DB::table('admin_users')->count();
-                    $infoBox = new InfoBox('Pengguna', 'users', 'aqua', route('admin.auth.users.index'), $count_users);
-                    $column->append($infoBox);
-                });
+                $admin_user = \Admin::user();
 
-                // Widget for room types
-                $row->column(3, function (Column $column) {
-                    $count_room_types = \DB::table('room_types')->count();
-                    $infoBox = new InfoBox('Tipe Ruangan', 'cubes', 'green', route('admin.room-types.index'), $count_room_types);
-                    $column->append($infoBox);
-                });
+                if($admin_user->username == 'admin') {
+                    // Widget for users
+                    $row->column(3, function (Column $column) {
+                        $count_users = \DB::table('admin_users')->count();
+                        $infoBox = new InfoBox('Pengguna', 'users', 'aqua', route('admin.auth.users.index'), $count_users);
+                        $column->append($infoBox);
+                    });
 
-                // Widget for rooms
-                $row->column(3, function (Column $column) {
-                    $count_rooms = \DB::table('rooms')->count();
-                    $infoBox = new InfoBox('Ruangan', 'trello', 'yellow', route('admin.rooms.index'), $count_rooms);
-                    $column->append($infoBox);
-                });
+                    // Widget for room types
+                    $row->column(3, function (Column $column) {
+                        $count_room_types = \DB::table('room_types')->count();
+                        $infoBox = new InfoBox('Tipe Ruangan', 'cubes', 'green', route('admin.room-types.index'), $count_room_types);
+                        $column->append($infoBox);
+                    });
 
-                // Widget for borrow rooms
-                $row->column(3, function (Column $column) {
-                    $count_borrow_rooms = \DB::table('borrow_rooms')->count();
-                    $infoBox = new InfoBox('Peminjaman', 'calendar', 'red', route('admin.borrow-rooms.index'), $count_borrow_rooms);
-                    $column->append($infoBox);
-                });
+                    // Widget for rooms
+                    $row->column(3, function (Column $column) {
+                        $count_rooms = \DB::table('rooms')->count();
+                        $infoBox = new InfoBox('Ruangan', 'trello', 'yellow', route('admin.rooms.index'), $count_rooms);
+                        $column->append($infoBox);
+                    });
+
+                    // Widget for borrow rooms
+                    $row->column($admin_user->username == 'admin' ? 3 : 12, function (Column $column) {
+                        $count_borrow_rooms = \DB::table('borrow_rooms')
+                        ->count();
+                        $infoBox = new InfoBox('Peminjaman', 'calendar', 'red', route('admin.borrow-rooms.index'), $count_borrow_rooms);
+                        $column->append($infoBox);
+                    });
+                } else {
+                    // Widget for borrow rooms
+                    $row->column($admin_user->username == 'admin' ? 3 : 12, function (Column $column) {
+                        $count_borrow_rooms = \DB::table('borrow_rooms')->where('borrower_id', \Admin::user()->id)
+                        ->count();
+                        $infoBox = new InfoBox('Peminjaman', 'calendar', 'red', route('admin.borrow-rooms.index'), $count_borrow_rooms);
+                        $column->append($infoBox);
+                    });
+                }
             })
             ->row(function (Row $row) {
                 $row->column(12, function (Column $column) {
@@ -61,14 +74,14 @@ class HomeController extends Controller
         $admin_user = \Admin::user();
         $data['admin_user_first_name'] = ucfirst(strtolower(explode(' ', $admin_user->name)[0]));
         $data['greetings'] = $this->Greetings(Carbon::now()->format('H'));
-        $data['is_new_admin_user'] = false;
+        // $data['is_new_admin_user'] = false;
 
-        if ( // Check user if same password with username
-            Hash::check($admin_user->username, $admin_user->password)
-            || $admin_user->created_at == $admin_user->updated_at
-        ) {
-            $data['is_new_admin_user'] = true;
-        }
+        // if ( // Check user if same password with username
+        //     Hash::check($admin_user->username, $admin_user->password)
+        //     || $admin_user->created_at == $admin_user->updated_at
+        // ) {
+        //     $data['is_new_admin_user'] = true;
+        // }
 
         return view('dashboard.admin_user_info', compact('data'));
     }

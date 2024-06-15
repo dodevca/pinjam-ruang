@@ -19,11 +19,11 @@ class BorrowRoomApiController extends Controller
         // Set request to variable
         $full_name =        \Str::upper($request->full_name);
         $nim =              $request->nim;
-        $study_program =    $request->study_program;
+        // $study_program =    $request->study_program;
         $data =             json_encode([
             'full_name' =>      $full_name,
             'nim'       =>      $nim,
-            'study_program' =>  $study_program,
+            // 'study_program' =>  $study_program,
         ], true);
 
         $validator = Validator::make($request->all(), [
@@ -31,9 +31,9 @@ class BorrowRoomApiController extends Controller
             'borrow_at' =>      'required|date|after_or_equal:' . now()->format('d-m-Y H:i'),
             'until_at' =>       'required|date|after_or_equal:borrow_at',
             'room' =>           'required',
-            'lecturer' =>       'required',
-            'nim' =>            'required|integer',
-            'study_program' =>  'required',
+            // 'lecturer' =>       'required',
+            'nim' =>            'required',
+            // 'study_program' =>  'required',
         ], [
             'full_name.required' => 'Kolom nama lengkap wajib diisi.',
 
@@ -46,12 +46,11 @@ class BorrowRoomApiController extends Controller
             'until_at.after_or_equal' =>    'Kolom tgl selesai harus berisi tanggal setelah atau sama dengan tgl mulai.',
 
             'room.required' =>      'Kolom ruangan wajib diisi.',
-            'lecturer.required' =>  'Kolom dosen wajib diisi.',
+            // 'lecturer.required' =>  'Kolom dosen wajib diisi.',
 
-            'nim.required' =>   'Kolom nim wajib diisi.',
-            'nim.integer' =>    'Kolom nim harus berupa bilangan bulat.',
+            'nim.required' =>   'Login terlebih dahulu.'
 
-            'study_program.required' => 'Kolom prodi wajib diisi.',
+            // 'study_program.required' => 'Kolom prodi wajib diisi.',
         ]);
 
         if ($validator->fails())
@@ -59,26 +58,26 @@ class BorrowRoomApiController extends Controller
 
         // Check if admin_user (college student) is exist
         $admin_user = Administrator::where('username', $nim)->first();
-        if ($admin_user === null) {
-            // Make account for college student
-            $admin_user = Administrator::create([
-                'username' =>   $nim,
-                'name' =>       $full_name,
-                'password' =>   Hash::make($request->nim)
-            ]);
+        // if ($admin_user === null) {
+        //     // Make account for college student
+        //     $admin_user = Administrator::create([
+        //         'username' =>   $nim,
+        //         'name' =>       $full_name,
+        //         'password' =>   Hash::make($request->nim)
+        //     ]);
 
-            // Add role college student
-            $admin_role_user = \DB::table('admin_role_users')->insert([
-                'role_id' =>    4,
-                'user_id' =>    $admin_user->id,
-            ]);
+        //     // Add role college student
+        //     $admin_role_user = \DB::table('admin_role_users')->insert([
+        //         'role_id' =>    4,
+        //         'user_id' =>    $admin_user->id,
+        //     ]);
 
-            // Make college student details to user_details table
-            $college_student_detail = AdminUserDetail::create([
-                'admin_user_id' =>  $admin_user->id,
-                'data' =>           $data
-            ]);
-        }
+        //     // Make college student details to user_details table
+        //     $college_student_detail = AdminUserDetail::create([
+        //         'admin_user_id' =>  $admin_user->id,
+        //         'data' =>           $data
+        //     ]);
+        // }
 
         // Check if that room already booked at that date range
         $room = Room::find($request->room);
@@ -117,7 +116,7 @@ class BorrowRoomApiController extends Controller
             'room_id' =>            $request->room,
             'borrow_at' =>          Carbon::make($request->borrow_at),
             'until_at' =>           Carbon::make($request->until_at),
-            'lecturer_id' =>        $request->lecturer,
+            // 'lecturer_id' =>        $request->lecturer,
         ]);
 
         // Return success create borrow_rooms

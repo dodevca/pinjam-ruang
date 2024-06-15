@@ -7,16 +7,16 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/animate.css') }}">
+<link rel="stylesheet" href="{{ asset('css/animate.css') }}">
 
-<link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/owl.carousel.min.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/owl.theme.default.min.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/magnific-popup.css') }}">
+<link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
 
-{{-- <link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/bootstrap-datepicker.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/jquery.timepicker.css') }}"> --}}
+{{-- <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.css') }}"> --}}
+{{-- <link rel="stylesheet" href="{{ asset('css/jquery.timepicker.css') }}"> --}}
 
-<link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/flaticon.css') }}">
-<link rel="stylesheet" href="{{ asset('vendor/technext/vacation-rental/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
+<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous" referrerpolicy="no-referrer" />

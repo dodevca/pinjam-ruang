@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/rooms', [HomeController::class, 'rooms'])->name('rooms');
-
 Route::group([
     'prefix'    => 'api/v1',
     'as'        => 'api.v1.'
